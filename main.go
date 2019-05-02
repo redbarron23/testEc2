@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"time"
 )
 
@@ -13,21 +12,12 @@ import (
 
 // These are static
 const (
-	TestInstance = "1.2.3.4" // change to private ip of newly instantiated host
+	TestInstance = "18.130.165.107:22" // change to private ip of newly instantiated host
 	User         = "ec2-user"
 	//GoVer  = "go1.12.4.linux-amd64.tar.gz"
 )
 
 func main() {
-
-	// if len(os.Args) != 2 {
-	// 	fmt.Println("testEc2Instance -ip '172.31.21.211' -ami 'ami-0188c0c5eddd2d032'")
-	// }
-
-	for i, arg := range os.Args {
-		// print index and value
-		fmt.Println("item", i, "is", arg)
-	}
 
 	// flags
 	var IPAddr *string
@@ -38,10 +28,9 @@ func main() {
 
 	flag.Parse()
 
-	// args := flag.Args()
-	// if len(args) != 2 {
-	// 	log.Fatal("Missing Flags -ip and -ami, `testEc2Instance -h for more information`")
-	// }
+	if len(flag.Args()) != 2 {
+		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] -h for more info")
+	}
 
 	// create a new instance
 	instance := createInstance(*IPAddr, *Ami)
