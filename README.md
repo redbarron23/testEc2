@@ -43,6 +43,8 @@ currently tested with 0.5.1
 
 ```dep ensure -add github.com/gruntwork-io/terratest/modules/terraform```
 
+```dep ensure -add github.com/stretchr/testify/assert```
+
 ## Run without Building
 
 ```GOCACHE=off go run *.go```
