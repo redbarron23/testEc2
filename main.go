@@ -28,13 +28,14 @@ func main() {
 
 	flag.Parse()
 
-	if len(flag.Args()) != 2 {
+	if flag.NFlag() != 2 {
 		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] -h for more info")
 	}
 
 	// create a new instance
 	instance := createInstance(*IPAddr, *Ami)
 	fmt.Println(instance)
+	fmt.Println("Starting Testing....")
 
 	// need to add waiters
 	time.Sleep(30 * time.Second)
@@ -47,7 +48,7 @@ func main() {
 
 	output, err := conn.SendCommands("date",
 		"sudo whoami",
-		"ps -aux",
+		"hostid",
 		//"sudo yum -y install wget unzip git",
 		//"wget https://dl.google.com/go/go1.12.4.linux-amd64.tar.gz",
 		//"sudo tar -C /usr/local -xvzf go1.12.4.linux-amd64.tar.gz",
