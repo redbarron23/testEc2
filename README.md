@@ -67,7 +67,7 @@ currently tested with 0.5.1
 
 ```GOCACHE=off BUCKET_NAME=urbucketname go test -v s3_test.go```
 
-# Potential
+# Potential Errata
 - wrong subnet for VPC
 /testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
 Could not create instance InvalidParameterValue: Address 172.31.32.2 does not fall within the subnet's address range
