@@ -69,6 +69,13 @@ currently tested with 0.5.1
 
 # Potential Errata
 - wrong subnet for VPC
+
 ```/testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
 Could not create instance InvalidParameterValue: Address 172.31.32.2 does not fall within the subnet's address range
 	status code: 400, request id: 6c739663-3a0d-43ff-b9cb-356c9484df36```
+	
+- security group is not created or defined
+
+```./testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
+Could not create instance InvalidParameterValue: Value () for parameter groupId is invalid. The value cannot be empty
+	status code: 400, request id: 4aaf3d16-c366-467a-b115-bef66a855106```
