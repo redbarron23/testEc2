@@ -66,3 +66,9 @@ currently tested with 0.5.1
 ```GOCACHE=off IP=10.10.10.10 go test -v ssh_test.go```
 
 ```GOCACHE=off BUCKET_NAME=urbucketname go test -v s3_test.go```
+
+# Potential
+- wrong subnet for VPC
+/testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
+Could not create instance InvalidParameterValue: Address 172.31.32.2 does not fall within the subnet's address range
+	status code: 400, request id: 6c739663-3a0d-43ff-b9cb-356c9484df36
