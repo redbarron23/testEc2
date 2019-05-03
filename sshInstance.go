@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
+// Connection to target
 type Connection struct {
 	*ssh.Client
 }
@@ -16,9 +17,10 @@ type Connection struct {
 // Connect to Ec2 Instance
 func Connect(addr, user string) (*Connection, error) {
 
-	pemBytes, err := ioutil.ReadFile("/home/jhourihane/.ssh/terratest.pem")
+	pemBytes, err := ioutil.ReadFile("/Home/jhourihane/.ssh/terratest.pem")
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		log.Fatalf("%s", err)
 	}
 	signer, err := ssh.ParsePrivateKey(pemBytes)
 	if err != nil {
@@ -42,7 +44,7 @@ func Connect(addr, user string) (*Connection, error) {
 
 }
 
-// send a slice of commands for automated testing
+// SendCommands a slice of commands for automated testing
 func (conn *Connection) SendCommands(cmds ...string) ([]byte, error) {
 	session, err := conn.NewSession()
 	if err != nil {

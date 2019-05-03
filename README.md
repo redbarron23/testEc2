@@ -67,15 +67,19 @@ currently tested with 0.5.1
 
 ```GOCACHE=off BUCKET_NAME=urbucketname go test -v s3_test.go```
 
-# Potential Errata
-- wrong subnet for VPC
+## Potential Errata
 
-```/testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
-Could not create instance InvalidParameterValue: Address 172.31.32.2 does not fall within the subnet's address range
-	status code: 400, request id: 6c739663-3a0d-43ff-b9cb-356c9484df36```
-	
-- security group is not created or defined
+- Wrong subnet for VPC
 
-```./testEc2 -ip 172.31.32.2 -ami ami-0188c0c5eddd2d032
-Could not create instance InvalidParameterValue: Value () for parameter groupId is invalid. The value cannot be empty
-	status code: 400, request id: 4aaf3d16-c366-467a-b115-bef66a855106```
+    Could not create instance InvalidParameterValue: Address 172.31.32.2 does not fall within the subnet's address range
+    status code: 400, request id: 6c739663-3a0d-43ff-b9cb-356c9484df36
+
+- Security group is not created or defined
+
+    Could not create instance InvalidParameterValue: Value () for parameter groupId is invalid. The value cannot be empty
+    status code: 400, request id: 4aaf3d16-c366-467a-b115-bef66a855106
+
+- IP is already in use
+
+    Could not create instance InvalidIPAddress.InUse: Address 172.31.22.128 is in use.
+    status code: 400, request id: 4957ed3b-2bfa-434b-97de-01e843c11bf5
