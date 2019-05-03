@@ -12,7 +12,7 @@ import (
 
 // These are static
 const (
-	TestInstance = "18.130.165.107:22" // change to private ip of newly instantiated host
+	TestInstance = "1.2.3.4:22" // change to private ip of newly instantiated host
 	User         = "ec2-user"
 	//GoVer  = "go1.12.4.linux-amd64.tar.gz"
 )
