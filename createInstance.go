@@ -25,8 +25,8 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 		MinCount:         aws.Int64(1),
 		MaxCount:         aws.Int64(1),
 		PrivateIpAddress: aws.String(ip), // 172.31.21.203
-		KeyName:          aws.String("terratest"),
-		SecurityGroups:   aws.StringSlice([]string{"terratest"}),
+		KeyName:        aws.String(Key),
+		SecurityGroups: aws.StringSlice([]string{"terratest"}),
 	})
 
 	if err != nil {

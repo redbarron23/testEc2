@@ -17,9 +17,9 @@ type Connection struct {
 // Connect to Ec2 Instance
 func Connect(addr, user string) (*Connection, error) {
 
-	pemBytes, err := ioutil.ReadFile("/Home/jhourihane/.ssh/terratest.pem")
+	pemBytes, err := ioutil.ReadFile(KeyFile)
+
 	if err != nil {
-		//log.Fatal(err)
 		log.Fatalf("%s", err)
 	}
 	signer, err := ssh.ParsePrivateKey(pemBytes)
@@ -35,7 +35,7 @@ func Connect(addr, user string) (*Connection, error) {
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
-	conn, err := ssh.Dial("tcp", addr, sshConfig)
+	conn, err := ssh.Dial("tcp", fmt.Sprintf("%s:%d", addr, 22), sshConfig)
 	if err != nil {
 		return nil, err
 	}

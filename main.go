@@ -7,14 +7,10 @@ import (
 	"time"
 )
 
-// TBD
-// key - local to jenkins
-
-// These are static
 const (
-	TestInstance = "1.2.3.4:22" // change to private ip of newly instantiated host
-	User         = "ec2-user"
-	//GoVer  = "go1.12.4.linux-amd64.tar.gz"
+	User    = "ec2-user"
+	Key     = "test"
+	KeyFile = "test.pem"
 )
 
 func main() {
@@ -34,6 +30,7 @@ func main() {
 
 	// create a new instance
 	instance := createInstance(*IPAddr, *Ami)
+	//TestInstance := *IPAddr // change to private ip of newly instantiated host
 	fmt.Println(instance)
 	fmt.Println("Starting Testing....")
 
@@ -41,7 +38,7 @@ func main() {
 	time.Sleep(30 * time.Second)
 
 	// Connect to Instance
-	conn, err := Connect(TestInstance, User)
+	conn, err := Connect(*IPAddr, User)
 	if err != nil {
 		log.Fatal(err)
 	}
