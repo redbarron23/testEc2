@@ -77,11 +77,11 @@ currently tested with 0.5.1
 
 ```cd ./test```
 
-```GOCACHE=off HTTP=http://10.10.10.10:8500 go test -v http_test.go```
+```HTTP=http://10.10.10.10:8500 go test -v http_test.go```
 
-```GOCACHE=off IP=10.10.10.10 go test -v ssh_test.go```
+```IP=10.10.10.10 PORT=22 go test -v tcp_test.go```
 
-```GOCACHE=off BUCKET_NAME=urbucketname go test -v s3_test.go```
+```BUCKET_NAME=urbucketname go test -v s3_test.go```
 
 ## Potential Errata
 
