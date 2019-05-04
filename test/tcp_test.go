@@ -10,7 +10,7 @@ import (
 func TestEndToEndSsh(t *testing.T) {
 	t.Parallel()
 
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
         	fmt.Printf("needs ENVIRONMENT VARIABLES set\n")
         	fmt.Printf("i.e. usage: IP=localhost PORT=22 go test -v tcp_test.go\n")
         	os.Exit(1)
