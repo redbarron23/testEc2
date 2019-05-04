@@ -1,12 +1,15 @@
 # Binaries for programs and plugins
 testEc2Instance
+main
 
 # Test binary, built with `go test -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+*.pem
 
+~*
 
 Gopkg.lock
 

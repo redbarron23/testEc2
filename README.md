@@ -5,6 +5,10 @@ This is intended to be compiled from source
 ** Disclaimer
 runs only for RedHAT Linux at the moment
 
+## Linux rpms
+
+```sudo yum -y install git wget gcc```
+
 ## Go Requirements
 
 ## Latest version of Go
@@ -33,17 +37,29 @@ currently tested with 0.5.1
 
 ## Dependencies
 
+- setting up GOHOME
+
+```mkdir -p ~/go```
+
+```export GOPATH=~/go```
+
+```export GOBIN=$GOPATH/bin```
+
+```export PATH=$PATH:/usr/local/go/bin:$GOBIN```
+
+```mkdir -p ~/go/src ~/go/bin```
+
+- godep
+
+```curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh```
+
+```cd $GOHOME && mkdir -p bitbucket/testEc2/test```
+
+```dep init```
+
 ```dep ensure --add github.com/aws/aws-sdk-go```
 
-```dep ensure -add github.com/bramvdbogaerde/go-scp```
-
 ```dep ensure -add github.com/gruntwork-io/terratest/modules/aws```
-
-```dep ensure -add github.com/gruntwork-io/terratest/modules/http-helper```
-
-```dep ensure -add github.com/gruntwork-io/terratest/modules/terraform```
-
-```dep ensure -add github.com/stretchr/testify/assert```
 
 ## Run without Building
 
@@ -83,3 +99,6 @@ currently tested with 0.5.1
 
     Could not create instance InvalidIPAddress.InUse: Address 172.31.22.128 is in use.
     status code: 400, request id: 4957ed3b-2bfa-434b-97de-01e843c11bf5
+
+## Misc
+
