@@ -44,13 +44,9 @@ func main() {
 	}
 
 	output, err := conn.SendCommands("date",
-		"sudo whoami",
-		"hostid",
-		//"sudo yum -y install wget unzip git",
-		//"wget https://dl.google.com/go/go1.12.4.linux-amd64.tar.gz",
-		//"sudo tar -C /usr/local -xvzf go1.12.4.linux-amd64.tar.gz",
-		// "git clone "some bitbucket repo",
-		// "GOHOME=/home/ec2-user/bit-bucket; cd ~/bit-bucket/test; go test -v"
+		"/usr/local/go/bin/go version",
+		"echo $GOPATH",
+	        "cd $GOPATH/src/bitbucket/testEc2/test && HTTP=http://172.31.22.132:8500 go test -v http_test.go",
 	)
 	if err != nil {
 		log.Fatal(err)
