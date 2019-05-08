@@ -27,6 +27,9 @@ pipeline {
 
                         echo "Installing dependencies"
                         //sh "install"
+                        sh "dep init"
+                        sh "dep ensure --add github.com/aws/aws-sdk-go"
+                        sh "dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
 
                         echo "Building Go Code"
                         //sh "go build ..."
