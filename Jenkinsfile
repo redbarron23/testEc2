@@ -4,8 +4,8 @@ node {
     ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/src/github.com/redbarron23/testEc2") {
         withEnv(["GOROOT=${root}", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/", "PATH+GO=${root}/bin"]) {
             env.PATH="${GOPATH}/bin:$PATH",
-            env.AWS_DEFAULT_REGION = "${aws_region}",
-            env.AWS_ACCESS_KEY_ID = "${aws_access_key}",
+            env.AWS_DEFAULT_REGION = "${aws_region}"
+            env.AWS_ACCESS_KEY_ID = "${aws_access_key}"
             env.AWS_SECRET_ACCESS_KEY = "${aws_secret_access_key}"
             
             stage 'Checkout'
