@@ -9,7 +9,7 @@ node {
         
             git url: 'https://github.com/redbarron23/testEc2.git'
         
-            stage 'preTest'
+            stage 'Dependencies'
             sh 'go version'
             sh "/usr/local/bin/dep init"
             sh "/usr/local/bin/dep ensure --add github.com/aws/aws-sdk-go"
@@ -21,11 +21,10 @@ node {
             
             stage 'Build'
             sh 'go build'
-            sh 'ls -l'
+            //sh 'ls -l'
             
             stage 'Deploy'
             sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
-            // Do nothing.
         }
     }
 }
