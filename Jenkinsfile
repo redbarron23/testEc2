@@ -20,7 +20,7 @@ node {
             //sh 'go test -cover'
             
             stage 'Build'
-            //sh 'go build . -o testEc2'
+            sh 'go build'
             sh 'ls -l'
             
             stage 'Deploy'
