@@ -27,7 +27,7 @@ node {
             
             stage 'Deploy'
                 withAWS(credentials:'tenant-acct-1', region:'eu-west-2') {
-                    echo "${region}"
+                    awsIdentity()
                 }
                 sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
         }
