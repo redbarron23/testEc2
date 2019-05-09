@@ -23,6 +23,7 @@ node {
             sh 'go build .'
             
             stage 'Deploy'
+            sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
             // Do nothing.
         }
     }
