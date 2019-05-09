@@ -20,7 +20,8 @@ node {
             //sh 'go test -cover'
             
             stage 'Build'
-            sh 'go build . -o testEc2'
+            //sh 'go build . -o testEc2'
+            sh 'ls -l'
             
             stage 'Deploy'
             sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
