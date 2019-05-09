@@ -1,7 +1,7 @@
 node {
     def root = tool name: '1.12.4', type: 'go'
 
-    ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/src/github.com/grugrut/golang-ci-jenkins-pipeline") {
+    ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/src/github.com/redbarron23/testEc2") {
         withEnv(["GOROOT=${root}", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/", "PATH+GO=${root}/bin"]) {
             env.PATH="${GOPATH}/bin:$PATH"
             
@@ -20,7 +20,7 @@ node {
             //sh 'go test -cover'
             
             stage 'Build'
-            sh 'go build .'
+            sh 'go build . -o testEc2'
             
             stage 'Deploy'
             sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
