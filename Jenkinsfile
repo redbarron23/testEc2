@@ -28,11 +28,11 @@ node {
             stage 'Deploy'
                 withAWS(credentials:'tenant-acct-1', region:'eu-west-2') {
                     awsIdentity()
+                    sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
                 }
-                 //withAWS(credentials:'tenant-acct-1') {
-                    //awsIdentity()
+                //withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_ID']]) {
+                //    sh 'aws s3api list-buckets --query "Buckets[].Name"'
                 //}
-                sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
         }
     }
 }
