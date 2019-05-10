@@ -33,6 +33,19 @@ node {
                 //withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_ID']]) {
                 //    sh 'aws s3api list-buckets --query "Buckets[].Name"'
                 //}
+            withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'tenant-acct-1',
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]]) {             
+                {
+                    sh 'env | sort -u'
+                    sh 'aws s3api list-buckets --query "Buckets[].Name"'
+                    sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
+                    sh 'aws ec2 describe-instances'
+                }
+            } // withCredentials
         }
     }
 }
