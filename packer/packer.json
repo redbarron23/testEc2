@@ -1,0 +1,49 @@
+{
+    "variables": {
+        "aws_access_key": "",
+        "aws_secret_key": "",
+        "ami_id": ""
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "us-east-1",
+        "source_ami": "{{user `ami_id`}}",
+        "instance_type": "t2.small",
+        "ssh_username": "ec2-user",
+        "ami_name": "packer-AMI- {{.CreateTime}}"
+    }],
+    "provisioners": [{
+            "type": "shell",
+            "inline": [
+                "sudo yum update -y",
+                "mkdir ~/packer",
+                "cd ~/packer",
+                "wget https://releases.hashicorp.com/packer/0.11.0/packer_0.11.0_linux_amd64.zip",
+                "unzip packer_0.11.0_linux_amd64.zip",
+                "echo 'export PATH=$HOME/packer:$PATH' >> ~/.bash_profile"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "./test/http_test.go",
+            "destination": "/home/ec2-user/test"
+        },
+        {
+            "type": "file",
+            "source": "./test/s3_test.go",
+            "destination": "/home/ec2-user/test"
+        },
+        {
+            "type": "file",
+            "source": "./test/tcp_test.go",
+            "destination": "/home/ec2-user/test"
+        }, {
+            "type": "file",
+            "source": "./test/testSuite.sh",
+            "destination": "/home/ec2-user/test"
+        }
+    ]
+}
+/
