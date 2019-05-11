@@ -47,8 +47,7 @@ func main() {
 		"/usr/local/go/bin/go version",
 		"cp /home/ec2-user/testSuite.sh /home/ec2-user/go/src/bitbucket/testEc2/test/",
 		"chmod +x /home/ec2-user/go/src/bitbucket/testEc2/test/testSuite.sh",
-		"/home/ec2-user/go/src/bitbucket/testEc2/test/testSuite.sh"
-
+		"/home/ec2-user/go/src/bitbucket/testEc2/test/testSuite.sh",
 	)
 	if err != nil {
 		log.Fatal(err)
