@@ -18,7 +18,7 @@ node {
                 sh "/usr/local/bin/dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
             
             stage 'Test'
-                //sh 'go vet'
+                sh 'go vet'
                 //sh 'go test -cover'
             
             stage 'Build'
@@ -26,20 +26,13 @@ node {
                 //sh 'ls -l'
             
             stage 'Deploy'
-                //withAWS(credentials:'tenant-acct-1', region:'eu-west-2') {
-                //    awsIdentity()
-                //    sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
-                //}
-                //withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_ID']]) {
-                //    sh 'aws s3api list-buckets --query "Buckets[].Name"'
-                //}
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: 'tenant-acct-1',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
+                    sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
                 }
         }
     }

@@ -45,8 +45,8 @@ func main() {
 
 	output, err := conn.SendCommands("date",
 		"/usr/local/go/bin/go version",
-		"echo $GOPATH",
-	        "cd $GOPATH/src/bitbucket/testEc2/test && HTTP=http://172.31.22.132:8500 go test -v http_test.go",
+		"chmod +x ./test/testSuite.sh",
+		"./test/testSuite.sh",
 	)
 	if err != nil {
 		log.Fatal(err)

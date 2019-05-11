@@ -14,12 +14,12 @@ import (
 func TestEndToEndS3(t *testing.T) {
 	t.Parallel()
 
-	//region := "eu-west-2"
 	bucket := os.Getenv("BUCKET_NAME")
+	region := os.Getenv("REGION")
 
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("eu-west-2"),
-		Credentials: credentials.NewSharedCredentials("", "pcs"),
+		Region:      aws.String(region),
+		Credentials: credentials.NewSharedCredentials("", "default"),
 	})
 
 	// Create S3 service client

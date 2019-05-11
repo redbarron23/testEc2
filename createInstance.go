@@ -25,8 +25,8 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 		MinCount:         aws.Int64(1),
 		MaxCount:         aws.Int64(1),
 		PrivateIpAddress: aws.String(ip), // 172.31.21.203
-		KeyName:        aws.String(Key),
-		SecurityGroups: aws.StringSlice([]string{"terratest"}),
+		KeyName:          aws.String(Key),
+		SecurityGroups:   aws.StringSlice([]string{"terratest"}),
 	})
 
 	if err != nil {
@@ -40,13 +40,13 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 
 	instanceSlice := aws.StringSlice([]string{MyinstanceID})
 
-    	describeInstancesInput := &ec2.DescribeInstancesInput{
-        	InstanceIds: instanceSlice,
-    	}
+	describeInstancesInput := &ec2.DescribeInstancesInput{
+		InstanceIds: instanceSlice,
+	}
 
-    if err := svc.WaitUntilInstanceRunning(describeInstancesInput); err != nil {
-        panic(err)
-    }
+	if err := svc.WaitUntilInstanceRunning(describeInstancesInput); err != nil {
+		panic(err)
+	}
 
 	// Add tags to the created instance
 	_, errtag := svc.CreateTags(&ec2.CreateTagsInput{
