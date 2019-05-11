@@ -15,6 +15,28 @@
     }],
 
     "provisioners": [{
+            "type": "file",
+            "source": "./test/http_test.go",
+            "destination": "/home/ec2-user/http_test.go"
+        }, {
+            "type": "file",
+            "source": "./test/s3_test.go",
+            "destination": "/home/ec2-user/s3_test.go"
+        },
+        {
+            "type": "file",
+            "source": "./test/tcp_test.go",
+            "destination": "/home/ec2-user/tcp_test.go"
+        }, {
+            "type": "file",
+            "source": "./test/testSuite.sh",
+            "destination": "/home/ec2-user/testSuite.sh"
+        },
+        {
+            "type": "file",
+            "source": "./bashrc",
+            "destination": "/home/ec2-user/.bashrc"
+        }, {
             "type": "shell",
             "inline": [
                 "sudo yum update -y",
@@ -24,30 +46,15 @@
                 "curl https: //raw.githubusercontent.com/golang/dep/master/install.sh | sh",
                 "mkdir -p /home/ec2-user/go/bin",
                 "mkdir -p /home/ec2-user/go/src",
-                "mkdir -p /home/ec2-user/go/src/bitbucket/testEc2/test"
+                "mkdir -p /home/ec2-user/go/src/bitbucket/testEc2/test",
+                "wget https://github.com/golang/dep/releases/download/0.5.2/dep-linux-amd64 && cp dep-linux-amd64 ~/go/bin/dep",
+                "chmod +x /home/ec2-user/go/bin/dep",
+                "~/go/bin/dep version",
+                "mv /home/ec2-user/*.go  /home/ec2-user/go/src/bitbucket/testEc2/test",
+                "cd ~/go/src/bitbucket/testEc2/ && ~/go/bin/dep init",
+                "cd ~/go/src/bitbucket/testEc2/ && ~/go/bin/dep ensure --add github.com/aws/aws-sdk-go",
+                "cd ~/go/src/bitbucket/testEc2/ && ~/go/bin/dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
             ]
-        }, {
-            "type": "file",
-            "source": "./test/http_test.go",
-            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/http_test.go"
-        }, {
-            "type": "file",
-            "source": "./test/s3_test.go",
-            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/s3_test.go"
-        },
-        {
-            "type": "file",
-            "source": "./test/tcp_test.go",
-            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/tcp_test.go"
-        }, {
-            "type": "file",
-            "source": "./test/testSuite.sh",
-            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/testSuite.sh"
-        },
-        {
-            "type": "file",
-            "source": "./bashrc",
-            "destination": "/home/ec2-user/.bashrc"
         }
     ]
 }
