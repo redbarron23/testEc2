@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TESTPATH="/home/ec2-user/go/src/bitbucket/testEc2/test"
+
 # we need this fail jenkins
 set -e -u
 rc=$?
@@ -10,9 +12,9 @@ rc=$?
 # go test
 
 # run each test  need to put these in Jenkins Vars
-REGION=eu-west-1 BUCKET_NAME=ctp-dev-lseg go test -v s3_test.go
-HTTP=http://172.31.22.132:8500 go test -v http_test.go
-IP=172.31.22.132 PORT=22 go test -v tcp_test.go
+REGION=eu-west-1 BUCKET_NAME=ctp-dev-lseg go test -v $TESTPATH/s3_test.go
+HTTP=http://172.31.22.132:8500 go test -v $TESTPATH/http_test.go
+IP=172.31.22.132 PORT=22 go test -v $TESTPATH/tcp_test.go
 
 # check err code
 if [ $rc -ne 0 ]; then
