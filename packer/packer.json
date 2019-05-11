@@ -1,49 +1,53 @@
 {
     "variables": {
-        "aws_access_key": "",
-        "aws_secret_key": "",
-        "ami_id": ""
+        "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
     },
     "builders": [{
         "type": "amazon-ebs",
         "access_key": "{{user `aws_access_key`}}",
         "secret_key": "{{user `aws_secret_key`}}",
-        "region": "us-east-1",
-        "source_ami": "{{user `ami_id`}}",
-        "instance_type": "t2.small",
+        "region": "eu-west-2",
+        "source_ami": "ami-0188c0c5eddd2d032",
+        "instance_type": "t2.micro",
         "ssh_username": "ec2-user",
-        "ami_name": "packer-AMI- {{.CreateTime}}"
+        "ami_name": "packer {{timestamp}}"
     }],
+
     "provisioners": [{
             "type": "shell",
             "inline": [
                 "sudo yum update -y",
-                "mkdir ~/packer",
-                "cd ~/packer",
-                "wget https://releases.hashicorp.com/packer/0.11.0/packer_0.11.0_linux_amd64.zip",
-                "unzip packer_0.11.0_linux_amd64.zip",
-                "echo 'export PATH=$HOME/packer:$PATH' >> ~/.bash_profile"
+                "sudo yum -y install git wget gcc",
+                "wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz",
+                "sudo tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz",
+                "curl https: //raw.githubusercontent.com/golang/dep/master/install.sh | sh",
+                "mkdir -p /home/ec2-user/go/bin",
+                "mkdir -p /home/ec2-user/go/src",
+                "mkdir -p /home/ec2-user/go/src/bitbucket/testEc2/test"
             ]
-        },
-        {
+        }, {
             "type": "file",
             "source": "./test/http_test.go",
-            "destination": "/home/ec2-user/test"
-        },
-        {
+            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/http_test.go"
+        }, {
             "type": "file",
             "source": "./test/s3_test.go",
-            "destination": "/home/ec2-user/test"
+            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/s3_test.go"
         },
         {
             "type": "file",
             "source": "./test/tcp_test.go",
-            "destination": "/home/ec2-user/test"
+            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/tcp_test.go"
         }, {
             "type": "file",
             "source": "./test/testSuite.sh",
-            "destination": "/home/ec2-user/test"
+            "destination": "/home/ec2-user/go/src/bitbucket/testEc2/test/testSuite.sh"
+        },
+        {
+            "type": "file",
+            "source": "./bashrc",
+            "destination": "/home/ec2-user/.bashrc"
         }
     ]
 }
-/
