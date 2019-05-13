@@ -8,10 +8,28 @@ import (
 )
 
 const (
-	User    = "ec2-user"
-	Key     = "test"
-	KeyFile = "test.pem"
+	User = "ec2-user"
+	//Key     = "test"
+	//KeyFile = "test.pem"
 )
+
+var keyName string
+var pemFileName string
+
+func init() {
+	keyName = InitKey()
+	pemFileName = InitKeyName()
+}
+
+// InitKey persist key throughout
+func InitKey() string {
+	return "test2"
+}
+
+// InitKeyName persist keyname throughout
+func InitKeyName() string {
+	return "test2.pem"
+}
 
 func main() {
 
@@ -27,6 +45,9 @@ func main() {
 	if flag.NFlag() != 2 {
 		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] -h for more info")
 	}
+
+	// create key
+	createAwsKey()
 
 	// create a new instance
 	instance := createInstance(*IPAddr, *Ami)
@@ -54,6 +75,8 @@ func main() {
 	}
 
 	fmt.Println(string(output))
+
+	deleteAwsKey()
 
 	defer destroyInstance(instance)
 
