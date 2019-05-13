@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+	"time"
 
 	"golang.org/x/crypto/ssh"
 )
@@ -34,6 +35,9 @@ func Connect(addr, user string) (*Connection, error) {
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
+
+	// Lets make sure ec2 is available should be a Waiter refactor later
+	time.Sleep(30 * time.Second)
 
 	conn, err := ssh.Dial("tcp", fmt.Sprintf("%s:%d", addr, 22), sshConfig)
 	if err != nil {
