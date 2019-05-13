@@ -32,7 +32,7 @@ node {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                    sh './testEc2 -ip 172.31.22.136 -ami ami-020ddcd8686c4bc95'
+                    sh './testEc2 -ip 172.31.22.136 -ami ami-0fb176954360127fc'
                 }
         }
     }
