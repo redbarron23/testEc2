@@ -14,6 +14,7 @@ const (
 )
 
 var keyName string
+var pemFileName string
 
 func init() {
 	keyName = InitKey()
