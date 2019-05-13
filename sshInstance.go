@@ -17,7 +17,7 @@ type Connection struct {
 // Connect to Ec2 Instance
 func Connect(addr, user string) (*Connection, error) {
 
-	pemBytes, err := ioutil.ReadFile(KeyFile)
+	pemBytes, err := ioutil.ReadFile(pairName)
 
 	if err != nil {
 		log.Fatalf("%s", err)
