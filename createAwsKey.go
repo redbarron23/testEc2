@@ -16,7 +16,7 @@ import (
 func createAwsKey() {
 	fmt.Println("Creating Key....")
 
-	pemFileName := keyName + ".pem"
+	//pemFileName = keyName + ".pem"
 
 	// Initialize a session in eu-west-2 that the SDK will use to load
 	// credentials from the shared credentials file ~/.aws/credentials.

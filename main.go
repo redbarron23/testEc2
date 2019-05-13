@@ -18,11 +18,17 @@ var pemFileName string
 
 func init() {
 	keyName = InitKey()
+	pemFileName = InitKeyName()
 }
 
-// InitKey persist keyname throughout
+// InitKey persist key throughout
 func InitKey() string {
 	return "test2"
+}
+
+// InitKeyName persist keyname throughout
+func InitKeyName() string {
+	return "test2.pem"
 }
 
 func main() {
@@ -69,6 +75,8 @@ func main() {
 	}
 
 	fmt.Println(string(output))
+
+	deleteAwsKey()
 
 	defer destroyInstance(instance)
 
