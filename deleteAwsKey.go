@@ -21,7 +21,7 @@ func deleteAwsKey() {
 	svc := ec2.New(sess)
 
 	input := &ec2.DeleteKeyPairInput{
-		KeyName: aws.String(pairName),
+		KeyName: aws.String(keyName),
 	}
 
 	result, err := svc.DeleteKeyPair(input)

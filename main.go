@@ -13,10 +13,10 @@ const (
 	//KeyFile = "test.pem"
 )
 
-var pairName string
+var keyName string
 
 func init() {
-	pairName = InitKey()
+	keyName = InitKey()
 }
 
 // InitKey persist keyname throughout

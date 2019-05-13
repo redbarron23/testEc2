@@ -25,7 +25,7 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 		MinCount:         aws.Int64(1),
 		MaxCount:         aws.Int64(1),
 		PrivateIpAddress: aws.String(ip), // 172.31.21.203
-		KeyName:          aws.String(pairName),
+		KeyName:          aws.String(keyName),
 		SecurityGroups:   aws.StringSlice([]string{"terratest"}),
 	})
 
