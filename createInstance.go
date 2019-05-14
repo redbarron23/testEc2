@@ -54,7 +54,7 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 		Tags: []*ec2.Tag{
 			{
 				Key:   aws.String("Name"),
-				Value: aws.String("GO-SDK-Instance"),
+				Value: aws.String("FT-Testing-E2E"),
 			},
 		},
 	})
