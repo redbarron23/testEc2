@@ -12,38 +12,42 @@ node {
                 defaultValue: 'ami-0fb176954360127fc',
                 description: 'latest ami')
             }
-         
-            
-            stage ('Checkout') {
-                git url: 'https://github.com/redbarron23/testEc2.git'
-            }
-        
-            stage ('Dependencies') {
-                sh 'go version'
-                sh "/usr/local/bin/dep init"
-                sh "/usr/local/bin/dep ensure --add github.com/aws/aws-sdk-go"
-                sh "/usr/local/bin/dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
-            }
-            
-            stage ('Test') {
-                sh 'go vet'
-                // sh "$HOME/go/bin/golint"
-            }
-            
-            stage ('Build') {
-                sh 'go build'
-            }
-            
-            stage ('Deploy') {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'tenant-acct-1',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    sh "./testEc2 -ip ${params.ip} -ami ${params.ami}"
+
+            stages {
+
+                stage ('Checkout') {
+                    git url: 'https://github.com/redbarron23/testEc2.git'
                 }
+        
+                stage ('Dependencies') {
+                    sh 'go version'
+                    sh "/usr/local/bin/dep init"
+                    sh "/usr/local/bin/dep ensure --add github.com/aws/aws-sdk-go"
+                    sh "/usr/local/bin/dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
+                }
+            
+                stage ('Test') {
+                    sh 'go vet'
+                    // sh "$HOME/go/bin/golint"
+                }
+                
+                stage ('Build') {
+                    sh 'go build'
+                }
+            
+                stage ('Deploy') {
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'tenant-acct-1',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh "./testEc2 -ip ${params.ip} -ami ${params.ami}"
+                    }
+                }
+
             }
+         
         }
     }
 }
