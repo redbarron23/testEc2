@@ -14,23 +14,27 @@ node {
             }
          
             
-            stage 'Checkout'
+            stage ('Checkout') {
                 git url: 'https://github.com/redbarron23/testEc2.git'
+            }
         
-            stage 'Dependencies'
+            stage ('Dependencies') {
                 sh 'go version'
                 sh "/usr/local/bin/dep init"
                 sh "/usr/local/bin/dep ensure --add github.com/aws/aws-sdk-go"
                 sh "/usr/local/bin/dep ensure -add github.com/gruntwork-io/terratest/modules/aws"
+            }
             
-            stage 'Test'
+            stage ('Test') {
                 sh 'go vet'
                 // sh "$HOME/go/bin/golint"
+            }
             
-            stage 'Build'
+            stage ('Build') {
                 sh 'go build'
+            }
             
-            stage 'Deploy'
+            stage ('Deploy') {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: 'tenant-acct-1',
@@ -39,6 +43,7 @@ node {
                 ]]) {
                     sh "./testEc2 -ip ${params.ip} -ami ${params.ami}"
                 }
+            }
         }
     }
 }
