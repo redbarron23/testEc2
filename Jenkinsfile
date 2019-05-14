@@ -25,7 +25,7 @@ node {
             
             stage 'Test'
                 sh 'go vet'
-                sh 'golint'
+                // sh "$HOME/go/bin/golint"
             
             stage 'Build'
                 sh 'go build'
