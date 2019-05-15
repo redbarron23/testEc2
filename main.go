@@ -42,7 +42,7 @@ func main() {
 	var Subnet *string
 	Subnet = flag.String("subnet", "", "Subnet for your VPC")
 
-	var SgId *string
+	var SgID *string
 	Subnet = flag.String("sgid", "", "Security Group for your VPC")
 
 	flag.Parse()
@@ -55,7 +55,7 @@ func main() {
 	createAwsKey()
 
 	// create a new instance
-	instance := createInstance(*IPAddr, *Ami, *Subnet, *SgId)
+	instance := createInstance(*IPAddr, *Ami, *Subnet, *SgID)
 	//TestInstance := *IPAddr // change to private ip of newly instantiated host
 	fmt.Println(instance)
 	fmt.Println("Starting Testing....")
