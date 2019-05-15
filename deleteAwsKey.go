@@ -5,20 +5,12 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-func deleteAwsKey() {
+func DeleteAwsKey(svc *ec2.EC2) {
 
 	fmt.Println("Deleting Key....")
-
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("eu-west-2")},
-	)
-
-	// Create an EC2 service client.
-	svc := ec2.New(sess)
 
 	input := &ec2.DeleteKeyPairInput{
 		KeyName: aws.String(keyName),

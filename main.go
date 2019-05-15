@@ -3,63 +3,71 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/gruntwork-io/terratest/modules/terraform"
 	"log"
-	"time"
+	"os"
+	"testing"
 )
 
 const (
-	User = "ec2-user"
-	//Key     = "test"
-	//KeyFile = "test.pem"
+	User        = "ec2-user"
+	keyName     = "test"
+	pemFileName = "test.pem"
 )
 
-var keyName string
-var pemFileName string
+var cwd, _ = os.Getwd()
 
-func init() {
-	keyName = InitKey()
-	pemFileName = InitKeyName()
-}
+// flags
+var ami = flag.String("ami", "", "AMI for your region")
+var region = flag.String("region", os.Getenv("AWS_REGION"), "AWS Region. Default env AWS_REGION")
+var terraformState = flag.String("state-folder", cwd, "Folder path containing the terraform.tfstate file. Default CWD")
+var terraformOptions *terraform.Options
 
-// InitKey persist key throughout
-func InitKey() string {
-	return "test2"
-}
-
-// InitKeyName persist keyname throughout
-func InitKeyName() string {
-	return "test2.pem"
-}
+// needed to pass into terratest functions. It is used for logging on errors
+var tStub = &testing.T{}
 
 func main() {
 
-	// flags
-	var IPAddr *string
-	IPAddr = flag.String("ip", "", "IP Address")
-
-	var Ami *string
-	Ami = flag.String("ami", "", "AMI for your region")
-
 	flag.Parse()
 
-	if flag.NFlag() != 2 {
-		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] -h for more info")
+	if *ami == "" {
+		log.Fatal("Usage: testEc2Instance -ami ami-abcdef123 [-region ipAddress] [-state-folder /a/path] -h for more info")
 	}
 
+	terraformOptions = &terraform.Options{
+		TerraformDir: *terraformState,
+	}
+
+	terraform.Init(tStub, terraformOptions)
+
+	// Initialize a session in eu-west-2 that the SDK will use to load
+	// credentials from the shared credentials file ~/.aws/credentials.
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(*region)},
+	)
+
+	// Create an EC2 service client.
+	svc := ec2.New(sess)
+
 	// create key
-	createAwsKey()
+	CreateAwsKey(svc, keyName, pemFileName)
+	defer DeleteAwsKey(svc)
+
+	securityGroupId := terraform.OutputRequired(tStub, terraformOptions, "instance_sg_id")
+	subnetId := terraform.OutputRequired(tStub, terraformOptions, "instance_subnet_id")
 
 	// create a new instance
-	instance := createInstance(*IPAddr, *Ami)
+	instance, ip := CreateInstance(svc, *ami, subnetId, securityGroupId)
+	defer DestroyInstance(svc, instance)
 	//TestInstance := *IPAddr // change to private ip of newly instantiated host
 	fmt.Println(instance)
 	fmt.Println("Starting Testing....")
 
-	// need to add waiters
-	time.Sleep(30 * time.Second)
-
 	// Connect to Instance
-	conn, err := Connect(*IPAddr, User)
+	conn, err := Connect(ip, User, pemFileName)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,9 +83,5 @@ func main() {
 	}
 
 	fmt.Println(string(output))
-
-	deleteAwsKey()
-
-	defer destroyInstance(instance)
 
 }

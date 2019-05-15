@@ -4,7 +4,7 @@ node {
     ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/src/github.com/redbarron23/testEc2") {
         withEnv(["GOROOT=${root}", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/", "PATH+GO=${root}/bin"]) {
             env.PATH="${GOPATH}/bin:$PATH"
-            // env.AWS_DEFAULT_REGION = "eu-west-2"
+            env.AWS_DEFAULT_REGION = "eu-west-2"
             // env.AWS_ACCESS_KEY_ID = credentials('jenkins-aws-secret-key-id')
             // env.AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
             
@@ -32,7 +32,7 @@ node {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                    sh './testEc2 -ip 172.31.22.136 -ami ami-0fb176954360127fc'
+                    sh './testEc2 -region ${AWS_DEFAULT_REGION} -ami ami-0fb176954360127fc'
                 }
         }
     }

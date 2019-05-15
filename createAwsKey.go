@@ -8,25 +8,11 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-// createAwsKey
-func createAwsKey() {
-	fmt.Println("Creating Key....")
-
-	//pemFileName = keyName + ".pem"
-
-	// Initialize a session in eu-west-2 that the SDK will use to load
-	// credentials from the shared credentials file ~/.aws/credentials.
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("eu-west-2")},
-	)
-
-	// Create an EC2 service client.
-	svc := ec2.New(sess)
-
+// CreateAwsKey
+func CreateAwsKey(svc *ec2.EC2, keyName string, pemFileName string) {
 	// Creates a new key pair with the given name
 	result, err := svc.CreateKeyPair(&ec2.CreateKeyPairInput{
 		KeyName: aws.String(keyName),
@@ -50,7 +36,9 @@ func createAwsKey() {
 	_, err = fmt.Fprintf(w, "%v\n", *result.KeyMaterial)
 
 	check(err)
-	w.Flush()
+	if err := w.Flush(); err != nil {
+		log.Println("Could not flush", err)
+	}
 
 	err = os.Chmod(pemFileName, 0600)
 	if err != nil {
