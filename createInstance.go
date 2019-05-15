@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-func createInstance(ip string, ami string) (MyinstanceID string) {
+func createInstance(ip string, ami string, subnet string) (MyinstanceID string) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("eu-west-2")},
 	)
