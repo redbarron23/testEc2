@@ -14,6 +14,9 @@ node {
                 string(name: 'subnet',
                 defaultValue: 'subnet-4f7d8c03',
                 description: 'subnet for your vpc')
+                string(name: 'sgid',
+                defaultValue: 'sg-0b44d9223c8071f5b',
+                description: 'Security GroupID')
             }
          
             

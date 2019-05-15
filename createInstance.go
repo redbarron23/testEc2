@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-func createInstance(ip string, ami string, subnet string) (MyinstanceID string) {
+func createInstance(ip string, ami string, subnet string, sgid string) (MyinstanceID string) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("eu-west-2")},
 	)
@@ -27,7 +27,10 @@ func createInstance(ip string, ami string, subnet string) (MyinstanceID string) 
 		PrivateIpAddress: aws.String(ip),     // TBD: pull from terraform output
 		SubnetId:         aws.String(subnet), // TBD: pull from terraform output
 		KeyName:          aws.String(keyName),
-		SecurityGroups:   aws.StringSlice([]string{"terratest"}),
+		// SecurityGroups:   aws.StringSlice([]string{"terratest"}),
+		SecurityGroupIds: []*string{
+			aws.String(sgid),
+		},
 	})
 
 	if err != nil {
