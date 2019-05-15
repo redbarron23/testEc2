@@ -39,7 +39,7 @@ func main() {
 	Ami = flag.String("ami", "", "AMI for your region")
 
 	var Subnet *string
-	Ami = flag.String("subnet", "", "Subnet for your VPC")
+	Subnet = flag.String("subnet", "", "Subnet for your VPC")
 
 	flag.Parse()
 
