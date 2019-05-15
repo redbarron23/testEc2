@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// User for ssh
 const (
 	User = "ec2-user"
 )

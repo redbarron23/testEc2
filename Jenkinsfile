@@ -11,6 +11,9 @@ node {
                 string(name: 'ami',
                 defaultValue: 'ami-0fb176954360127fc',
                 description: 'latest ami')
+                string(name: 'subnet',
+                defaultValue: 'subnet-4f7d8c03',
+                description: 'subnet for your vpc')
             }
          
             
