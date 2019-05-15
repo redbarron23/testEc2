@@ -51,7 +51,7 @@ func main() {
 	createAwsKey()
 
 	// create a new instance
-	instance := createInstance(*IPAddr, *Ami*Subnet)
+	instance := createInstance(*IPAddr, *Ami, *Subnet)
 	//TestInstance := *IPAddr // change to private ip of newly instantiated host
 	fmt.Println(instance)
 	fmt.Println("Starting Testing....")
