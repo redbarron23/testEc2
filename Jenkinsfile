@@ -41,7 +41,7 @@ node {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                    sh "./testEc2 -ip ${params.ip} -ami ${params.ami}"
+                    sh "./testEc2 -ip ${params.ip} -ami ${params.ami} -subnet ${params.subnet}"
                 }
             }
         }

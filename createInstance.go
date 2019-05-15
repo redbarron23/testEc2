@@ -24,7 +24,8 @@ func createInstance(ip string, ami string) (MyinstanceID string) {
 		InstanceType:     aws.String("t2.micro"),
 		MinCount:         aws.Int64(1),
 		MaxCount:         aws.Int64(1),
-		PrivateIpAddress: aws.String(ip), // 172.31.21.203
+		PrivateIpAddress: aws.String(ip),     // TBD: pull from terraform output
+		SubnetId:         aws.String(subnet), // TBD: pull from terraform output
 		KeyName:          aws.String(keyName),
 		SecurityGroups:   aws.StringSlice([]string{"terratest"}),
 	})
