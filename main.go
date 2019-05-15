@@ -44,7 +44,7 @@ func main() {
 	flag.Parse()
 
 	if flag.NFlag() != 2 {
-		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] [-subnet subnet-6e7f829e]-h for more info")
+		log.Fatal("Usage: testEc2Instance [-ip ipAddress] [-ami ami-abcdef123] [-subnet subnet-6e7f829e] -h for more info")
 	}
 
 	// create key
