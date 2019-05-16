@@ -17,6 +17,7 @@ HTTP=http://172.31.22.132:8500 go test -v $TESTPATH/http_test.go
 IP=172.31.22.132 PORT=22 go test -v $TESTPATH/tcp_test.go
 CONSUL_ADDRESS=1.2.3.4:8500 go test -v $TESTPATH/consul_test.go
 VAULT_ADDRESS=https://1.2.3.4:8222 go test -v $TESTPATH/vault_test.go
+http_proxy=https:1.2.3.4 go test -v $TESTPATH/datadog_test.go
 
 # check err code
 if [ $rc -ne 0 ]; then

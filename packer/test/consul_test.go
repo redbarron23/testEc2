@@ -11,11 +11,18 @@ import (
 func TestConsulKVAvailable(t *testing.T) {
 	// Get a new client
 	// set CONSUL_ADDRESS=1.2.3.4:8500
+	addr := os.Getenv("CONSUL_ADDRESS")
+	if addr == "" {
+		t.Fatal("Missing value for environment variable CONSUL_ADDRESS")
+	}
+
+	t.Logf("Using consul server at %s", addr)
+
 	client, err := api.NewClient(&api.Config{
-		Address: os.Getenv("CONSUL_ADDRESS"),
+		Address: addr,
 	})
 	if err != nil {
-		panic(err)
+		t.Fatalf("Error creating client %v", err)
 	}
 
 	// Get a handle to the KV API
@@ -28,24 +35,24 @@ func TestConsulKVAvailable(t *testing.T) {
 	p := &api.KVPair{Key: key, Value: []byte("1000")}
 	_, err = kv.Put(p, nil)
 	if err != nil {
-		panic(err)
+		t.Fatalf("Error putting key %v", err)
 	}
 
-	fmt.Printf("KV Put: %v %s\n", p.Key, p.Value)
+	t.Logf("KV Put: %v %s\n", p.Key, p.Value)
 
 	// Lookup the pair
 	pair, _, err := kv.Get(key, nil)
 	if err != nil {
-		panic(err)
+		t.Fatalf("Error getting key %v", err)
 	}
 
-	fmt.Printf("KV Get: %v %s\n", pair.Key, pair.Value)
+	t.Logf("KV Get: %v %s\n", pair.Key, pair.Value)
 
 	_, err = kv.Delete(p.Key, nil)
 
 	if err != nil {
-		panic(err)
+		t.Fatalf("Error deleting key %v", err)
 	}
 
-	fmt.Printf("KV Delete: %v\n", p.Key)
+	t.Logf("KV Delete: %v\n", p.Key)
 }
