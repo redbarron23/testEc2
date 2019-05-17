@@ -40,7 +40,7 @@ func TestVaultAvailable(t *testing.T) {
 	}
 
 	suffix := rand.Int()
-	key := fmt.Sprintf("secret/data/TEST_VAULT_SECRETS_%d", suffix)
+	key := fmt.Sprintf("cubbyhole/TEST_VAULT_SECRETS_%d", suffix)
 
 	// PUT a new KV pair
 	secretData := map[string]interface{}{
