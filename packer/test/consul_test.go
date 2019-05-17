@@ -32,13 +32,13 @@ func TestConsulKVAvailable(t *testing.T) {
 	key := fmt.Sprintf("TEST_CONSUL_KV_%d", suffix)
 
 	// PUT a new KV pair
-	p := &api.KVPair{Key: key, Value: []byte("1000")}
+	p := &api.KVPair{Key: key, Value: []byte(fmt.Sprintf("%d", rand.Int()))}
 	_, err = kv.Put(p, nil)
 	if err != nil {
 		t.Fatalf("Error putting key %v", err)
 	}
 
-	t.Logf("KV Put: %v %s\n", p.Key, p.Value)
+	t.Logf("KV Put: %v with data length %d\n", p.Key, len(p.Value))
 
 	// Lookup the pair
 	pair, _, err := kv.Get(key, nil)
