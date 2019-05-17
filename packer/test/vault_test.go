@@ -1,6 +1,7 @@
 package test
 
 import (
+	"errors"
 	"fmt"
 	"github.com/hashicorp/vault/api"
 	"math/rand"
@@ -8,6 +9,14 @@ import (
 	"testing"
 )
 
+// TestVaultAvailable connects to vault and reads/writes some values
+// Env vars:
+//   VAULT_ADDRESS - Address to connect to
+// Auth:
+//   VAULT_TOKEN - token to connect to vault
+//    or
+//   VAULT_USERNAME - username for login
+//   VAULT_PASSWORD - password for login
 func TestVaultAvailable(t *testing.T) {
 	// Get a new client
 	// set VAULT_ADDRESS=https://1.2.3.4:8222
@@ -24,6 +33,10 @@ func TestVaultAvailable(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Error creating client %v", err)
+	}
+
+	if err = configureAuthToken(client); err != nil {
+		t.Fatalf("Could not configure auth token: %s", err)
 	}
 
 	suffix := rand.Int()
@@ -56,4 +69,38 @@ func TestVaultAvailable(t *testing.T) {
 	}
 
 	t.Logf("Vault Delete: %v\n", key)
+}
+
+func configureAuthToken(client *api.Client) error {
+
+	token := os.Getenv("VAULT_TOKEN")
+	if token != "" {
+		client.SetToken(token)
+		return nil
+	}
+
+	username := os.Getenv("VAULT_USERNAME")
+	password := os.Getenv("VAULT_PASSWORD")
+
+	if username == "" || password == "" {
+		return errors.New("missing token or username and password")
+	}
+
+	// to pass the password
+	options := map[string]interface{}{
+		"password": password,
+	}
+
+	// the login path for userpass. Configure the correct method
+	// https://www.vaultproject.io/docs/auth/userpass.html
+	path := fmt.Sprintf("auth/userpass/login/%s", username)
+
+	// PUT call to get a token
+	secret, err := client.Logical().Write(path, options)
+	if err != nil {
+		return err
+	}
+
+	client.SetToken(secret.Auth.ClientToken)
+	return nil
 }
