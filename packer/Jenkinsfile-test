@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout and Test') {
+            environment { 
+                    IP='localhost'
+                    PORT='8080'
+                }           
+            steps ('Checkout') {
+                git url: 'https://github.com/redbarron23/testEc2.git'
+                sh 'mkdir -p test/reports'
+                sh 'cd packer/test && /usr/local/bin/go test -v tcp_test.go | /usr/local/bin/go-junit-report > junit_report.xml'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'packer/test/*.xml'
+        }
+    }
+}
