@@ -9,7 +9,7 @@ pipeline {
             steps ('Checkout') {
                 git url: 'https://github.com/redbarron23/testEc2.git'
                 sh 'mkdir -p test/reports'
-                sh 'cd packer/test && /usr/local/bin/go test -v tcp_test.go | /usr/local/bin/go-junit-report > junit_report.xml'
+                sh 'cd packer/test && /usr/local/bin/go test -v . | /usr/local/bin/go-junit-report > junit_report.xml'
             }
         }
     }
